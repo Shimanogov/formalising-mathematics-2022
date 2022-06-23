@@ -28,53 +28,149 @@ variables (P Q R S : Prop)
 
 example : P → P ∨ Q :=
 begin
-  sorry
+  intros p,
+  left,
+  exact p,
 end
 
 example : Q → P ∨ Q :=
 begin
-  sorry,
+  intros q,
+  right,
+  exact q,
 end
 
 example : P ∨ Q → (P → R) → (Q → R) → R :=
 begin
-  sorry
+  intros pq pr qr,
+  cases pq,
+  apply pr,
+  exact pq,
+  apply qr,
+  exact pq,
 end
 
 -- symmetry of `or`
 example : P ∨ Q → Q ∨ P :=
 begin
-  sorry
+  intros pq,
+  cases pq,
+  right,
+  exact pq,
+  left,
+  exact pq,
 end
 
 -- associativity of `or`
 example : (P ∨ Q) ∨ R ↔ P ∨ (Q ∨ R) :=
 begin
-  sorry,
+  split,
+    intro pqr,
+    cases pqr,
+    cases pqr,
+    left,
+    exact pqr,
+    right,
+    left,
+    exact pqr,
+    right,
+    right,
+    exact pqr,
+
+    intros pqr,
+    cases pqr,
+    left,
+    left,
+    exact pqr,
+    cases pqr,
+    left,
+    right,
+    exact pqr,
+    right,
+    exact pqr
 end
 
 example : (P → R) → (Q → S) → P ∨ Q → R ∨ S :=
 begin
-  sorry,
+  intros pr qs pq,
+  cases pq,
+  left,
+  apply pr,
+  exact pq,
+  right,
+  apply qs,
+  exact pq,
 end
 
 example : (P → Q) → P ∨ R → Q ∨ R :=
 begin
-  sorry,
+  intros pq pr,
+  cases pr,
+  left,
+  apply pq,
+  exact pr,
+  right,
+  exact pr,
 end
 
 example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) :=
 begin
-  sorry,
+  intros pr qs,
+  rw pr,
+  rw qs,
 end
 
 -- de Morgan's laws
 example : ¬ (P ∨ Q) ↔ ¬ P ∧ ¬ Q :=
 begin
-  sorry
+  split,
+
+  intros h,
+  change P ∨ Q → false at h,
+  split,
+  intro p,
+  apply h,
+  left,
+  exact p,
+  intro q,
+  apply h,
+  right,
+  exact q,
+
+  intros h,
+  change P ∨ Q → false,
+  intros nh,
+  cases h with np nq,
+  cases nh,
+  apply np,
+  exact nh,
+  apply nq,
+  exact nh,
 end
 
 example : ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
-  sorry
+  split,
+    intro h,
+    change P ∧ Q → false at h,
+    by_cases p : P,
+    right,
+    intro q,
+    apply h,
+    split,
+    exact p,
+    exact q,
+    left,
+    exact p,
+
+    intro h,
+    change P ∧ Q → false,
+    intro pq,
+    cases h,
+    apply h,
+    cases pq with p q,
+    exact p,
+    apply h,
+    cases pq with p q,
+    exact q,
 end

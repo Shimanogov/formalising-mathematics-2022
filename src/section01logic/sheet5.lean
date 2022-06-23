@@ -26,50 +26,119 @@ variables (P Q R S : Prop)
 
 example : P ↔ P :=
 begin
-  sorry
+  refl,
 end
 
 example : (P ↔ Q) → (Q ↔ P) :=
 begin
-  sorry
+  intros pq,
+  rw pq,
 end
 
 example : (P ↔ Q) ↔ (Q ↔ P) :=
 begin
-  sorry
+  split,
+  intros pq,
+  rw pq,
+  intros pq,
+  rw pq,
 end
 
 example : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=
 begin
-  sorry
+  intros pq qr,
+  rw pq,
+  exact qr,
 end
 
 example : P ∧ Q ↔ Q ∧ P :=
 begin
-  sorry
+  split,
+  intro pq,
+  cases pq with p q,
+  split,
+  exact q,
+  exact p,
+  intro qp,
+  cases qp with q p,
+  split,
+  exact p,
+  exact q,
 end
 
 example : ((P ∧ Q) ∧ R) ↔ (P ∧ (Q ∧ R)) :=
 begin
-  sorry
+  split,
+  intros pqr,
+  cases pqr with pq r,
+  cases pq with p q,
+  split,
+  exact p,
+  split,
+  exact q,
+  exact r,
+  intros pqr,
+  cases pqr with p qr,
+  cases qr with q r,
+  split,
+  split,
+  exact p,
+  exact q,
+  exact r,
 end
 
 example : P ↔ (P ∧ true) :=
 begin
-  sorry
+  split,
+  intro p,
+  split,
+  exact p,
+  triv,
+  intro pt,
+  cases pt with p t,
+  exact p,
 end
 
 example : false ↔ (P ∧ false) :=
 begin
-  sorry
+  split,
+  intro f,
+  exfalso,
+  exact f,
+  intro pf,
+  cases pf with p f,
+  exact f,
 end
 
 example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) :=
 begin
-  sorry
+  intros pq rs,
+  split,
+  rw pq,
+  rw rs,
+  intro h,
+  exact h,
+  rw pq,
+  rw rs,
+  intro h,
+  exact h,
 end
 
 example : ¬ (P ↔ ¬ P) :=
 begin
-  sorry,
+  intro h,
+  cases h with h1 h2,
+  change P → P → false at h1,
+  apply h1,
+    apply h2,
+    intro p,
+    apply h1,
+    exact p,
+    exact p,
+
+    apply h2,
+    intro p,
+    apply h1,
+    exact p,
+    exact p,
 end
